@@ -21,6 +21,7 @@ const TodoItem: React.FC<TodoItemProps> = memo((props) => {
     switch (condition) {
       case 'toggle':
         onToggleItem(id);
+
         break;
       case 'delete':
         onDeleteItem(id);
