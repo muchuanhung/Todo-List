@@ -15,18 +15,21 @@ const initialList: TodoType[] = [
   { id: 'id2', text: '年薪百萬', done: false },
 ];
 
-const TodoList = memo(() => {
+const TodoList = () => {
   const [list, setList] = useState(initialList);
   const [filterType, setFilterType] = useState('all');
 
-  const atAddItem = useCallback((text: string) => {
-    const item: TodoType = {
-      id: new Date().getTime().toString(),
-      text,
-      done: false,
-    };
-    setList((prevList) => [...prevList, item]);
-  }, []);
+  const atAddItem = useCallback(
+    (text: string) => {
+      const item: TodoType = {
+        id: new Date().getTime().toString(),
+        text,
+        done: false,
+      };
+      setList(list.concat(item));
+    },
+    [list],
+  );
 
   const atToggleItem = useCallback(
     (id: string) => {
@@ -45,29 +48,25 @@ const TodoList = memo(() => {
     [list],
   );
 
-  const atDeleteItem = useCallback(
-    (id: string) => {
-      const newList = list.filter((item: TodoType) => item.id !== id);
-      setList(newList);
-    },
-    [list],
-  );
-
-  const atFilterChange = useCallback((type: string) => {
-    setFilterType(type);
+  const atDeleteItem = useCallback((id: string) => {
+    setList((prev) => {
+      return prev.filter((item: TodoType) => item.id !== id);
+    });
   }, []);
 
-  const filtersList = useMemo(() => {
-    return list.filter((todo: TodoType) => {
-      if (filterType === 'completed') {
-        return todo.done;
-      }
-      if (filterType === 'active') {
-        return !todo.done;
-      }
-      return true;
-    });
-  }, [list, filterType]);
+  const atFilterChange = (type: string) => {
+    setFilterType(type);
+  };
+
+  const filtersList = list.filter((todo: TodoType) => {
+    if (filterType === 'completed') {
+      return todo.done;
+    }
+    if (filterType === 'active') {
+      return !todo.done;
+    }
+    return true;
+  });
 
   return (
     <section className="todo-list" data-name="TodoList">
@@ -88,6 +87,6 @@ const TodoList = memo(() => {
       </div>
     </section>
   );
-});
+};
 
-export default TodoList;
+export default React.memo(TodoList);

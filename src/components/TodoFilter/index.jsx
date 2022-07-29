@@ -8,7 +8,7 @@ type TodoFilterProps = {
   onFilterChange: (type: string) => void,
 };
 
-const TodoFilter: React.FC<TodoFilterProps> = memo((props) => {
+const TodoFilter: React.FC<TodoFilterProps> = (props) => {
   const { onFilterChange, filterType } = props;
   let allClass = 'btn btn-link';
   if (filterType === 'all') {
@@ -34,5 +34,5 @@ const TodoFilter: React.FC<TodoFilterProps> = memo((props) => {
       </button>
     </section>
   );
-});
-export default TodoFilter;
+};
+export default React.memo(TodoFilter);

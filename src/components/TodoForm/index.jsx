@@ -5,7 +5,7 @@ import './TodoForm.scss';
 type TodoFormProps = {
   onAddItem: (text: string) => void,
 };
-const TodoForm: React.FC<TodoFormProps> = memo((props) => {
+const TodoForm: React.FC<TodoFormProps> = (props) => {
   const { onAddItem } = props;
 
   const [input, setInput] = useState('');
@@ -33,6 +33,6 @@ const TodoForm: React.FC<TodoFormProps> = memo((props) => {
       </form>
     </section>
   );
-});
+};
 
-export default TodoForm;
+export default React.memo(TodoForm);
